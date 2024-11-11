@@ -109,7 +109,7 @@ class TestProductModel(unittest.TestCase):
         product.create()
         self.assertIsNotNone(product.id)
         fetched_product = Product.find(product.id)
-        self.assertEqual(fetched_product, product.id)
+        self.assertEqual(fetched_product.id, product.id)
         self.assertEqual(fetched_product.name, product.name)
         self.assertEqual(fetched_product.description, product.description)
         self.assertEqual(fetched_product.price, product.price)
@@ -147,11 +147,11 @@ class TestProductModel(unittest.TestCase):
         """List all products in the DB"""
         products = Product.all()
         self.assertEqual(products, [])
-        prod1 = ProductFactory()
-        prod2 = ProductFactory()
-        prod1.crete()
-        prod2.create()
-        self.assertEqual(len(Product.all()), 2)
+        for _ in range(5):
+            product = ProductFactory()
+            product.create()
+        new_products = Product.all()
+        self.assertEqual(len(new_products), 5)
 
     def test_find_product_by_name(self):
         """Find product in DB by name"""
